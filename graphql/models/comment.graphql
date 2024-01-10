@@ -1,0 +1,12 @@
+extend type Query {
+  text: String @where(operator: "like")
+  comments: [Comment!]! @all
+  comment(id: ID @eq): Comment @find
+}
+
+type Comment {
+  id: ID!
+  text: String!
+  user: User!
+  post: Post!
+}

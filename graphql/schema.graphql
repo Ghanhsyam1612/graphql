@@ -1,0 +1,71 @@
+"A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`."
+scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
+
+
+type Query
+
+#import models/user.graphql
+#import models/post.graphql
+#import models/comment.graphql
+
+
+
+
+type Mutation
+{
+    "User Mutation"
+
+    createUser(input: CreateUserInput @spread): User @create
+    updateUser(id: ID!, input: UpdateUserInput @spread): User @update
+    deleteUser(id: ID! ): User @delete
+
+    "Post Mutation"
+
+    createPost(input: CreatePostInput @spread): Post @create
+    updatePost(id: ID! input: UpdatePostInput @spread): Post @update
+
+    "Comment Mutation"
+
+     createComment(input: CreateCommentInput @spread): Comment @create
+
+}
+"Create New User Input With Validation"
+input CreateUserInput
+{
+    name: String!
+    email: String! @rules(apply:["email","unique:users,email"])
+    password: String! @hash @rules (apply:["min:5"])
+
+}
+"Update User with Validation"
+input UpdateUserInput
+{
+    name: String!
+    email: String! @rules(apply:["email","unique:users,email"])
+}
+
+
+"Create New Post Input With Validation"
+input CreatePostInput
+{
+    post_name: String!
+    user_id: Int!
+    description: String!
+
+}
+
+"Update Post with Validation"
+input UpdatePostInput
+{
+    post_name: String!
+    description: String!
+
+}
+
+
+input CreateCommentInput {
+    text: String!
+    user_id: Int!
+    post_id: Int!
+
+}

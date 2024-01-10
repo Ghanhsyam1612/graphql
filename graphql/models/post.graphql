@@ -1,0 +1,17 @@
+
+extend type Query
+{
+ post_name: String @where(operator: "like")
+ posts: [Post!]! @all
+ post(id: ID @eq): Post @find
+}
+
+type Post {
+  id: ID!
+  post_name: String!
+  user_id: Int!
+  description: String!
+  user: User! @belongsTo
+  comments: [Comment!]! @belongsToMany
+}
+
